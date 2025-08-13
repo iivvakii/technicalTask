@@ -19,7 +19,7 @@ If a job link does not contain the main domain (techstars.com), the system store
 
   - _tags_
    
-    Detailed data is not collected for such jobs.
+  Detailed data is not collected for such jobs.
 
 - **Retry mechanism and fallback:**
 Each job is attempted 3 times using Jsoup.

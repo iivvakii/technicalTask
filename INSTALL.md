@@ -7,34 +7,26 @@ Before you begin, make sure you have the following installed:
 - Docker
 - Docker Compose
 
+
+Ensure ports 8080 (app) and 4444 (Selenium) are free.
+
+(Optional) Install ChromeDriver if you want to run locally without Docker.
+
 **2. Clone the repository**
    
-   _git clone https://github.com/your-username/technical-task.git_
+   `git clone https://github.com/your-username/technical-task.git`
    
 **3. Build the Spring Boot application**
    
-_./mvnw clean package_
+ `./mvnw clean package`
    
 This will generate the target/*.jar file required for Docker.
 
-**4. Configure environment variables**
-   
-The application uses environment variables for database connection and other settings.
-   You can configure them in docker-compose.yml:
-
-environment:
-    
-SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
-SPRING_DATASOURCE_USERNAME: postgres
-SPRING_DATASOURCE_PASSWORD: password
-SPRING_JPA_HIBERNATE_DDL_AUTO: update
-JAVA_OPTS: "-Xms512m -Xmx1024m"
-
-**5. Run with Docker Compose**
+**4. Run with Docker Compose**
 
    Build and start the containers:
 
-_docker-compose up --build_
+ `docker-compose up --build`
 
 Spring Boot app will be available at: http://localhost:8080
 
@@ -49,20 +41,37 @@ Credentials:
 
 To stop the containers:
 
-_docker-compose down_
+ `docker-compose down`
 
-**6. Database dump**
-   If you want to generate a SQL dump of scraped jobs:
+**5. Database dump**
 
-After scraping, check the configured path in application.properties or JobService
-_D:/jobs_dump.sql_
+The application generates files during scraping:
 
-This file will contain CREATE TABLE statements and all job records.
+SQL dump file (Software Engineering jobs.sql)
 
-**7. Optional: Run without Docker**
+Stored in the host machine project root (or the path you specify in SqlGeneratorService).
 
-   You can run the Spring Boot app directly with Maven:
+If you run in Docker, make sure the path is accessible from inside the container. For example, you can create a volume:
 
-_./mvnw spring-boot:run_
 
-Make sure PostgreSQL is running locally and the application.properties points to the correct database.
+- volumes:
+   - ./data:/data
+
+
+  and write files to /app/data/Software Engineering jobs.sql inside the container.
+
+**6. Stopping the project**
+
+`docker-compose down`
+
+**7. Running locally (optional)**
+
+If you prefer to run the app locally without Docker:
+
+Install Chrome and ChromeDriver.
+
+Set system property in your code:
+
+`System.setProperty("webdriver.chrome.driver", "your/path/to/webdriver");`
+
+Run the Spring Boot app normally (./mvnw spring-boot:run or from IDE).

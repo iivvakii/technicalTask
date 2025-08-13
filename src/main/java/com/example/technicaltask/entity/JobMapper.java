@@ -48,35 +48,4 @@ public class JobMapper {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public Job fromJson(JSONObject json) {
-        Job job = new Job();
-
-        // Припустимо, що в JSON є такі поля (підлаштуй під свій API):
-        job.setJobUrl(json.optString("job_url")); // або "url", "jobUrl" — подивись в реальному JSON
-        job.setPositionName(json.optString("position_name")); // заміни на реальні ключі
-//        job.setCompanyName(json.optString("company_name"));
-//        job.setLocation(json.optString("location"));
-        job.setPostedDate(Long.parseLong(json.optString("posted_date"))); // або перетвори у LocalDate, якщо потрібно
-
-        // Можеш додати інші поля, які потрібні з JSON, наприклад:
-//        job.setDescription(json.optString("description"));
-
-        // Якщо в JSON є масив тегів / функцій — мапимо їх у список Tag або JobFunctions
-        if (json.has("tags")) {
-            // Приклад: tags — масив рядків
-            var tagsJsonArray = json.getJSONArray("tags");
-            List<Tag> tags = new ArrayList<>();
-            for (int i = 0; i < tagsJsonArray.length(); i++) {
-                String tagName = tagsJsonArray.getString(i).trim();
-                if (!tagName.isEmpty()) {
-                    Tag tag = new Tag();
-                    tag.setName(tagName);
-                    tags.add(tag);
-                }
-            }
-            job.setTags(tags);
-        }
-
-        return job;
-    }
 }

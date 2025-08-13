@@ -67,7 +67,7 @@ public class SqlGeneratorService {
     public static final String INSERT_LOCATION_VALUE = "INSERT INTO job_locations (job_id, location) VALUES (%d, '%s');\n";
 
 
-    public void dumpJobsToSql(List<Job> jobs, String filePath) throws IOException {
+    public void  dumpJobsToSql(List<Job> jobs, String filePath) throws IOException {
         StringBuilder sb = new StringBuilder();
 
         sb.append(CREATE_JOB_TABLE);

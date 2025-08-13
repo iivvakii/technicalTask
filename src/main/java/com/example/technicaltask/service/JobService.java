@@ -7,30 +7,16 @@ import com.example.technicaltask.exception.JobProcessingException;
 import com.example.technicaltask.exception.ScrapingException;
 import com.example.technicaltask.model.Job;
 import com.example.technicaltask.model.Tag;
-import com.example.technicaltask.repository.JobRepository;
-import com.example.technicaltask.repository.TagRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.lang.annotation.Documented;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
@@ -39,9 +25,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class JobService {
-    private final JobRepository jobRepository;
     private final JobMapper jobMapper;
-    private final TagRepository tagRepository;
     private final SqlGeneratorService sqlGeneratorService;
     private final ScrollService scrollService;
 
@@ -58,7 +42,7 @@ public class JobService {
         List<Job> result = getMoreInfo(jobs);
         log.info("Finished fetching detailed info for {} jobs", result.size());
         try {
-            sqlGeneratorService.dumpJobsToSql(result, "D:/jobs_dump.sql");
+            sqlGeneratorService.dumpJobsToSql(result, "/data/Software Engineering jobs.sql");
             log.info("Dumped jobs to SQL file successfully");
         } catch (ScrapingException | IOException e) {
             log.error("Failed to scrape jobs", e);

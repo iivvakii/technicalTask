@@ -47,8 +47,6 @@ If a job cannot be processed even with fallback, it is skipped to avoid blocking
 
 ### API Endpoint
 
-`GET /jobs`
-
 You can pass query parameters for filtering jobs by job_functions:
 
 #### Request example:
